@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface QuizCompletedProps {
   score: number;
@@ -7,9 +10,17 @@ interface QuizCompletedProps {
 
 const QuizCompleted: React.FC<QuizCompletedProps> = ({ score }) => {
   const [feedback, setFeedback] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     console.log(feedback); // Handle feedback submission
+    toast.success('Feedback submitted successfully!', {
+      position: 'top-center',
+      autoClose: 1000,
+    });
+    setTimeout(() => {
+      navigate('/');
+    }, 1000); // Adjust the duration as needed
   };
 
   return (

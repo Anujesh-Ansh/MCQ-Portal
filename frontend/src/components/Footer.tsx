@@ -1,38 +1,15 @@
+// Footer.tsx
 import React from 'react';
+import { Typography, Container } from '@mui/material';
 
-const Footer: React.FC = () => {
-  return (
-    <div style={footerStyles}>
-      <a href="https://github.com/Anujesh-Ansh" target="_blank" style={heartBoxStyles}>
-        <p>Made with 🧡 by Anujesh</p>
+const Footer: React.FC = () => (
+  <Container component="footer" style={{ marginTop: 'auto', padding: '1rem 0', textAlign: 'center' }}>
+    <Typography variant="body2" color="textSecondary" >
+      <a href="https://github.com/Anujesh-Ansh" target="_blank" rel="noreferrer" style={{textDecoration: 'none', color: 'black', fontStyle:'italic',fontWeight:'bold' , cursor: 'pointer'}}>
+        Made with 🧡 by Anujesh
       </a>
-    </div>
-  );
-};
-
-const footerStyles: React.CSSProperties = {
-  padding: '15px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '100%',
-  position: 'fixed',
-  bottom: 0,
-  backgroundColor: 'transparent',
-  
-};
-
-const heartBoxStyles: React.CSSProperties = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '15px',
-  textDecoration: 'none',
-  color: 'black',
-  fontStyle : 'italic',
-  fontWeight: 'bold'
-};
-
-
+    </Typography>
+  </Container>
+);
 
 export default Footer;

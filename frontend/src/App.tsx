@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { QuestionState, Difficulty, fetchQuizQuestions } from './API';
+import { useNavigate } from 'react-router-dom';
+import { QuestionState, Difficulty, fetchQuizQuestions, Type } from './API';
 import QuestionCard, { AnswerObject } from './components/QuestionCard';
-import {
-  CssBaseline,
-  Container,
-  Button,
-  Typography,
-  CircularProgress,
-} from '@mui/material';
+import { CssBaseline, Container, Button, Typography } from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AddQuestionForm from './components/AddQuestionForm';
 import QuizCompleted from './components/QuizCompleted';
+import LoadingScreen from './components/LoadingScreen';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const TOTAL_QUESTIONS = 10;
+const TOTAL_QUESTIONS = 2;
 
 interface FormData {
   question: string;
@@ -31,31 +27,43 @@ const App: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [quizStatus, setQuizStatus] = useState<'not_started' | 'completed' | 'times_up'>('not_started');
   const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
   }, []);
 
+  useEffect(() => {
+    if (userAnswers.length === TOTAL_QUESTIONS) {
+      setGameOver(true);
+      setQuizStatus('completed');
+      navigate('/quiz-completed');
+    }
+  }, [userAnswers, navigate]);
+
   const handleAddQuestion = () => {
     setShowAddQuestionForm(true);
+    navigate('/add-question');
   };
 
   const handleSubmitQuestion = (formData: FormData) => {
-    // Handle submission of new question
     toast.success('Question added successfully!', {
       position: 'top-center',
-      autoClose: 1000, // Adjust the duration as needed (in milliseconds)
+      autoClose: 1000,
     });
-    
     console.log('New question:', formData);
     setShowAddQuestionForm(false);
+    navigate('/');
   };
 
   const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
-    const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY);
+    setQuizStatus('not_started');
+    const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY, Type.MULTIPLE);
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -82,9 +90,22 @@ const App: React.FC = () => {
     const nextQ = number + 1;
     if (nextQ === TOTAL_QUESTIONS) {
       setGameOver(true);
+      setQuizStatus('completed');
+      navigate('/quiz-completed');
     } else {
       setNumber(nextQ);
     }
+    console.log('gameOver:', gameOver);
+  };
+
+  const getTitle = () => {
+    return userAnswers.length === TOTAL_QUESTIONS ? 'Quiz Completed' : 'Quiz App';
+  };
+
+  const getButtonText = () => {
+    if (quizStatus === 'completed') return 'Restart';
+    if (quizStatus === 'times_up') return 'Retry';
+    return 'Start';
   };
 
   return (
@@ -93,13 +114,13 @@ const App: React.FC = () => {
       <Header onAddQuestion={handleAddQuestion} />
       <Container style={{ paddingTop: '20px' }}>
         <Typography variant="h2" align="center" gutterBottom>
-          Quiz App
+          {getTitle()}
         </Typography>
         {loading ? (
-          <CircularProgress style={{ margin: '20px auto', display: 'block' }} />
+          <LoadingScreen />
         ) : (
           <>
-            {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+            {gameOver ? (
               <>
                 <Button
                   variant="contained"
@@ -108,7 +129,7 @@ const App: React.FC = () => {
                   onClick={startTrivia}
                   style={{ margin: '20px auto', display: 'block' }}
                 >
-                  Start
+                  {getButtonText()}
                 </Button>
                 {gameOver && userAnswers.length === TOTAL_QUESTIONS && (
                   <QuizCompleted score={score} />

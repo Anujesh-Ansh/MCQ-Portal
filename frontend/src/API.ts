@@ -17,9 +17,14 @@ export enum Difficulty{
     MEDIUM = "medium",
     HARD = "hard"
 }
+export enum Type{
+    MULTIPLE = "multiple",
+    BOOLEAN = "boolean"
 
-export const fetchQuizQuestions = async (amount:number, difficulty: Difficulty) => {
-    const endpoint = `https://mcq-portal.onrender.com/${amount}/${difficulty}`
+}
+
+export const fetchQuizQuestions = async (amount:number, difficulty: Difficulty, type: Type) => {
+    const endpoint = `https://mcq-portal.onrender.com/${amount}/${difficulty}/${type}`
     const response = await axios.get(endpoint)
 
 

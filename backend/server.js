@@ -10,8 +10,8 @@ const app = express()
 app.use(cors())
 
 
-app.get('/:amount/:difficulty', async(req, res) => {
-    const response = await axios.get(`${process.env.API_URL}?amount=${req.params.amount}&difficulty=${req.params.difficulty}`)
+app.get('/:amount/:difficulty/:type', async(req, res) => {
+    const response = await axios.get(`${process.env.API_URL}?amount=${req.params.amount}&difficulty=${req.params.difficulty}&type=${req.params.type}`)
     // console.log(response.data.results)
     res.json(response.data.results)
 })
