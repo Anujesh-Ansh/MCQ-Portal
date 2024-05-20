@@ -55,6 +55,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
               name="question"
               value={formData.question}
               onChange={handleChange}
+              required
             />
             <TextField
               fullWidth
@@ -63,6 +64,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
               name="audioUrl"
               value={formData.audioUrl}
               onChange={handleChange}
+              required
             />
             {formData.options.map((option, index) => (
               <TextField
@@ -72,6 +74,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
                 label={`Option ${index + 1}`}
                 value={option}
                 onChange={(e) => handleOptionChange(e.target.value, index)}
+                required
               />
             ))}
             <TextField
@@ -81,6 +84,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
               name="correctAnswer"
               value={formData.correctAnswer}
               onChange={handleChange}
+              required
             />
             <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
               Done

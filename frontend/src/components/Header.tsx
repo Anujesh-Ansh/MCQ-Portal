@@ -12,7 +12,7 @@ const Header: React.FC<HeaderProps> = ({ onAddQuestion }) => {
 
   const handleTitleClick = () => {
     console.log("New Page");
-    navigate('/'); // Redirect to the root route when title is clicked
+    window.location.href = '/'; // Redirect to the root route and reload the page
   };
 
   return (
