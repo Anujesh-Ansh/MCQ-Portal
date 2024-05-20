@@ -19,7 +19,7 @@ export enum Difficulty{
 }
 
 export const fetchQuizQuestions = async (amount:number, difficulty: Difficulty) => {
-    const endpoint = `http://localhost:5002/${amount}/${difficulty}`
+    const endpoint = `https://mcq-portal.onrender.com/${amount}/${difficulty}`
     const response = await axios.get(endpoint)
 
 

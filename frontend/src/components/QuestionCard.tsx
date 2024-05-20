@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, Typography, LinearProgress } from '@mui/material';
 import AnswerButton from './AnswerButton';
+import AudioPlayer from './AudioPlayer';
 
 export type AnswerObject = {
   question: string;
@@ -35,7 +36,14 @@ const QuestionCard: React.FC<Props> = ({
     }
     setTimer(15);
     intervalRef.current = setInterval(() => {
-      setTimer(prev => prev - 1);
+      setTimer(prev => {
+        if (prev === 1) {
+          clearInterval(intervalRef.current!);
+          window.location.href = '/times-up';
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => {
@@ -45,13 +53,6 @@ const QuestionCard: React.FC<Props> = ({
     };
   }, [questionNr]);
 
-  useEffect(() => {
-    if (timer === 0) {
-      // Handle timer expiration
-      window.location.href = '/times-up';
-    }
-  }, [timer]);
-
   return (
     <Card>
       <CardContent>
@@ -59,10 +60,7 @@ const QuestionCard: React.FC<Props> = ({
           Question: {questionNr} / {totalQuestions}
         </Typography>
         <Typography dangerouslySetInnerHTML={{ __html: question }} />
-        <audio controls>
-          <source src="your-audio-url.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
+        <AudioPlayer audioUrl="your-audio-url.mp3" />
         <div>
           {answers.map((answer) => (
             <AnswerButton
@@ -70,7 +68,10 @@ const QuestionCard: React.FC<Props> = ({
               answer={answer}
               userAnswer={userAnswer?.answer}
               correctAnswer={userAnswer?.correctAnswer || ''}
-              callback={callback}
+              callback={(e) => {
+                clearInterval(intervalRef.current!);
+                callback(e);
+              }}
             />
           ))}
         </div>

@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { QuestionState, Difficulty, fetchQuizQuestions } from './API';
 import QuestionCard, { AnswerObject } from './components/QuestionCard';
-import { CssBaseline, Container, Button, Typography, CircularProgress } from '@mui/material';
+import {
+  CssBaseline,
+  Container,
+  Button,
+  Typography,
+  CircularProgress,
+} from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AddQuestionForm from './components/AddQuestionForm';
 import QuizCompleted from './components/QuizCompleted';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TOTAL_QUESTIONS = 10;
+
+interface FormData {
+  question: string;
+  audioUrl: string;
+  options: string[];
+  correctAnswer: string;
+}
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -15,10 +31,26 @@ const App: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
   }, []);
+
+  const handleAddQuestion = () => {
+    setShowAddQuestionForm(true);
+  };
+
+  const handleSubmitQuestion = (formData: FormData) => {
+    // Handle submission of new question
+    toast.success('Question added successfully!', {
+      position: 'top-center',
+      autoClose: 1000, // Adjust the duration as needed (in milliseconds)
+    });
+    
+    console.log('New question:', formData);
+    setShowAddQuestionForm(false);
+  };
 
   const startTrivia = async () => {
     setLoading(true);
@@ -55,51 +87,65 @@ const App: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
   return (
     <>
       <CssBaseline />
-      <Header />
-      <Container>
-        <Typography variant="h2" gutterBottom>
+      <Header onAddQuestion={handleAddQuestion} />
+      <Container style={{ paddingTop: '20px' }}>
+        <Typography variant="h2" align="center" gutterBottom>
           Quiz App
         </Typography>
-        {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+        {loading ? (
+          <CircularProgress style={{ margin: '20px auto', display: 'block' }} />
+        ) : (
           <>
-            <Button variant="contained" color="primary" onClick={startTrivia}>
-              Start
-            </Button>
-            {gameOver && userAnswers.length === TOTAL_QUESTIONS && (
-              <QuizCompleted score={score} />
+            {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={startTrivia}
+                  style={{ margin: '20px auto', display: 'block' }}
+                >
+                  Start
+                </Button>
+                {gameOver && userAnswers.length === TOTAL_QUESTIONS && (
+                  <QuizCompleted score={score} />
+                )}
+              </>
+            ) : null}
+            {!gameOver ? (
+              <Typography variant="h5" align="center" style={{ margin: '20px 0' }}>
+                Score: {score}
+              </Typography>
+            ) : null}
+            {!loading && !gameOver && (
+              <QuestionCard
+                questionNr={number + 1}
+                totalQuestions={TOTAL_QUESTIONS}
+                question={questions[number].question}
+                answers={questions[number].answers}
+                userAnswer={userAnswers ? userAnswers[number] : undefined}
+                callback={checkAnswer}
+              />
             )}
+            {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={nextQuestion}
+                style={{ margin: '20px auto', display: 'block' }}
+              >
+                Next Question
+              </Button>
+            ) : null}
           </>
-        ) : null}
-        {!gameOver ? <Typography variant="h5">Score: {score}</Typography> : null}
-        {loading && <Typography>Loading Questions...</Typography>}
-        {!loading && !gameOver && (
-          <QuestionCard
-            questionNr={number + 1}
-            totalQuestions={TOTAL_QUESTIONS}
-            question={questions[number].question}
-            answers={questions[number].answers}
-            userAnswer={userAnswers ? userAnswers[number] : undefined}
-            callback={checkAnswer}
-          />
         )}
-        {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
-          <Button variant="contained" color="secondary" onClick={nextQuestion}>
-            Next Question
-          </Button>
-        ) : null}
       </Container>
+      {showAddQuestionForm && <AddQuestionForm onSubmit={handleSubmitQuestion} />}
       <Footer />
+      <ToastContainer />
     </>
   );
 };
