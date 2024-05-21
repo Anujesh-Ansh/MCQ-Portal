@@ -19,13 +19,13 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ score }) => {
       autoClose: 1000,
     });
     setTimeout(() => {
-      navigate('/');
-    }, 1000); // Adjust the duration as needed
+      window.location.href = '/'; 
+    }, 2000); // Adjust the duration as needed
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <Container style={{color: 'white'}}>
+      <Typography variant="h4" gutterBottom >
         Quiz Completed
       </Typography>
       <Typography variant="h6">Your Score: {score}</Typography>
@@ -37,9 +37,9 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ score }) => {
         fullWidth
         value={feedback}
         onChange={(e) => setFeedback(e.target.value)}
-        style={{ margin: '1rem 0' }}
+        style={{ margin: '1rem 0', color: 'white', backgroundColor: 'grey', borderRadius: '25px' }}
       />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button variant="contained" color="secondary" onClick={handleSubmit}>
         Submit Feedback
       </Button>
     </Container>
@@ -47,3 +47,7 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ score }) => {
 };
 
 export default QuizCompleted;
+// style={{background}}                 variant="contained"
+                // color="secondary"
+                // onClick={nextQuestion}
+                // style={{ margin: '20px auto', display: 'block' }}

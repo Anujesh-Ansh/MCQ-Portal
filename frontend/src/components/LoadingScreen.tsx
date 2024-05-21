@@ -6,7 +6,7 @@ const LoadingScreen: React.FC = () => {
   return (
     <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
       <ClimbingBoxLoader
-        color={'black'}
+        color={'#F37A24'}
         size={15}
         aria-label="Loading Spinner"
         data-testid="loader"

@@ -1,8 +1,7 @@
+// App.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { QuestionState, Difficulty, fetchQuizQuestions, Type } from './API';
-import QuestionCard, { AnswerObject } from './components/QuestionCard';
-import { CssBaseline, Container, Button, Typography } from '@mui/material';
+import { CssBaseline, Button, Typography, ThemeProvider } from '@mui/material'; // import ThemeProvider
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AddQuestionForm from './components/AddQuestionForm';
@@ -10,6 +9,9 @@ import QuizCompleted from './components/QuizCompleted';
 import LoadingScreen from './components/LoadingScreen';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { QuestionState, Difficulty, fetchQuizQuestions, Type } from './API';
+import QuestionCard, { AnswerObject } from './components/QuestionCard';
+import theme from './theme'; // import the custom theme
 
 const TOTAL_QUESTIONS = 2;
 
@@ -109,11 +111,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header onAddQuestion={handleAddQuestion} />
-      <Container style={{ paddingTop: '20px' }}>
-        <Typography variant="h2" align="center" gutterBottom>
+      <div style={{ paddingTop: '20px', flexGrow: 1 }}>
+        <Typography variant="h2" align="center" gutterBottom fontFamily={'Shadows Into Light'}>
           {getTitle()}
         </Typography>
         {loading ? (
@@ -124,10 +126,9 @@ const App: React.FC = () => {
               <>
                 <Button
                   variant="contained"
-                  color="primary"
                   size="large"
                   onClick={startTrivia}
-                  style={{ margin: '20px auto', display: 'block' }}
+                  style={{ margin: '20px auto', display: 'block', backgroundColor: '#F37A24', color: '#282c34' }}
                 >
                   {getButtonText()}
                 </Button>
@@ -163,11 +164,11 @@ const App: React.FC = () => {
             ) : null}
           </>
         )}
-      </Container>
+      </div>
       {showAddQuestionForm && <AddQuestionForm onSubmit={handleSubmitQuestion} />}
       <Footer />
       <ToastContainer />
-    </>
+    </ThemeProvider>
   );
 };
 

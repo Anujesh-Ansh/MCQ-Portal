@@ -17,9 +17,19 @@ const Header: React.FC<HeaderProps> = ({ onAddQuestion }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={handleTitleClick}>
-          Quiz App
+      <Toolbar style={{ backgroundColor: '#202124', width: '100vw' }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+          onClick={handleTitleClick}
+          style={{ 
+            color: '#f27b24', 
+            cursor: 'pointer',
+            fontFamily: 'Poetsen One'  // Apply PostenOne font
+          }}
+        >
+          MCQ Portal
         </Typography>
         <IconButton
           edge="end"
@@ -27,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ onAddQuestion }) => {
           aria-label="add question"
           onClick={onAddQuestion}
         >
-          <AddIcon />
+          <AddIcon style={{ color: '#f27b24' }} />
         </IconButton>
       </Toolbar>
     </AppBar>

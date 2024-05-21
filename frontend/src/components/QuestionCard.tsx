@@ -36,7 +36,7 @@ const QuestionCard: React.FC<Props> = ({
     }
     setTimer(15);
     intervalRef.current = setInterval(() => {
-      setTimer(prev => {
+      setTimer((prev) => {
         if (prev === 1) {
           clearInterval(intervalRef.current!);
           window.location.href = '/times-up';
@@ -54,12 +54,24 @@ const QuestionCard: React.FC<Props> = ({
   }, [questionNr]);
 
   return (
-    <Card>
+    <Card
+      style={{
+        background: 'rgba( 255, 193, 113, 1)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        backdropFilter: 'blur(7px)',
+        WebkitBackdropFilter: 'blur(7px)',
+        borderRadius: '10px',
+        border: '1px solid rgba(255, 255, 255, 0.18)',
+        width: '90vw',
+        marginLeft:'5vw',
+        marginBottom:'0px',
+      }}
+    >
       <CardContent>
-        <Typography variant="h6">
+        <Typography variant="h5"  style={{fontWeight:'bolder', color: 'black'}}>
           Question: {questionNr} / {totalQuestions}
         </Typography>
-        <Typography dangerouslySetInnerHTML={{ __html: question }} />
+        <Typography dangerouslySetInnerHTML={{ __html: question }} style={{color: 'black'}}/>
         <AudioPlayer audioUrl="your-audio-url.mp3" />
         <div>
           {answers.map((answer) => (

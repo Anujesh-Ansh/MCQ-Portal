@@ -21,7 +21,7 @@ const AnswerButton: React.FC<AnswerButtonProps> = ({
     if (isCorrect) return 'green';
     if (isIncorrect) return 'red';
     if (userAnswer) return 'grey';
-    return 'primary';
+    return '#202124';
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,6 +35,13 @@ const AnswerButton: React.FC<AnswerButtonProps> = ({
       value={answer}
       onClick={handleClick}
       variant="contained"
+      style={{
+        color: 'white',
+        textTransform: 'none',
+        fontSize: '1rem',
+        padding: '1rem',
+      
+      }}
       sx={{
         margin: '0.5rem 0',
         backgroundColor: getBackgroundColor(),
