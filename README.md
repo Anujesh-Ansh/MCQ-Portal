@@ -1,6 +1,3 @@
-Absolutely! Here's the updated README.md with more emojis:
-
-```markdown
 # 📝 MCQ Portal
 
 Welcome to the MCQ Portal! This is a mobile-first and responsive MCQ (Multiple Choice Questions) app built using React, TypeScript, and Material UI. The app fetches questions from the Open Trivia DB API and allows users to take quizzes.
