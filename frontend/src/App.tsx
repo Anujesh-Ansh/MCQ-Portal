@@ -13,7 +13,7 @@ import { QuestionState, Difficulty, fetchQuizQuestions, Type } from './API';
 import QuestionCard, { AnswerObject } from './components/QuestionCard';
 import theme from './theme'; // import the custom theme
 
-const TOTAL_QUESTIONS = 2;
+const TOTAL_QUESTIONS = 5;
 
 interface FormData {
   question: string;
