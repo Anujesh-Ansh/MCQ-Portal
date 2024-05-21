@@ -28,7 +28,7 @@ To clone and run this application locally, follow these steps:
 
 2. Navigate to the project directory:
    ```bash
-   cd MCQ-Portal
+   cd MCQ-Portal/frontend
    ```
 
 3. Install dependencies:
