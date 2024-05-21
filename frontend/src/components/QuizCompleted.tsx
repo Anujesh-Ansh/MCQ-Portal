@@ -24,7 +24,7 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ score }) => {
   };
 
   return (
-    <Container style={{color: 'white'}}>
+    <Container style={{color: 'white', width: '50vw'}}>
       <Typography variant="h4" gutterBottom >
         Quiz Completed
       </Typography>

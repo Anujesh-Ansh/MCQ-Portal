@@ -62,8 +62,8 @@ const QuestionCard: React.FC<Props> = ({
         WebkitBackdropFilter: 'blur(7px)',
         borderRadius: '10px',
         border: '1px solid rgba(255, 255, 255, 0.18)',
-        width: '90vw',
-        marginLeft:'5vw',
+        width: '70vw',
+        marginLeft:'15vw',
         marginBottom:'0px',
       }}
     >
